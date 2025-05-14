@@ -13,6 +13,8 @@ public class DataContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<EventModel>()
+            .HasKey(e => e.Id);
+        modelBuilder.Entity<EventModel>()
             .Property(e => e.Price).HasColumnType("decimal(18,2)");
     }
 

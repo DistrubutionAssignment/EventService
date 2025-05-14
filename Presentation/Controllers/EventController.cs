@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Presentation.Data;
 using Presentation.Dtos;
@@ -25,7 +24,7 @@ public class EventController : ControllerBase
             .OrderBy(e => e.Date)
             .ToListAsync();
 
-        return Ok(events.Select(EventFactory.ToDto));
+        return Ok(events.Select(e => EventFactory.ToDto(e)));
     }
 
     [HttpGet("{id}")]

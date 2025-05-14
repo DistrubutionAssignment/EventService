@@ -10,5 +10,5 @@ public class EventModel
     public DateTime Date { get; set; }
     public int MaxTickets { get; set; }
     public decimal Price { get; set; }
-    public string ImageUrl { get; set; }
+    public string? ImageUrl { get; set; }
 }

@@ -1,9 +1,9 @@
-﻿using Presentation.Dtos;
-using Presentation.Models;
+﻿using Presentation.Models;
+using Presentation.Dtos;
 
 namespace Presentation.Factories;
 
-public class EventFactory
+public static class EventFactory
 {
     public static EventModel CreateFromDto(CreateEventDto dto)
     {
@@ -19,6 +19,7 @@ public class EventFactory
             ImageUrl = dto.ImageUrl
         };
     }
+
     public static void UpdateFromDto(EventModel existing, UpdateEventDto dto)
     {
         existing.Name = dto.Name;
@@ -30,7 +31,8 @@ public class EventFactory
         existing.Price = dto.Price;
         existing.ImageUrl = dto.ImageUrl;
     }
-    public static EventDto ToDto(EventDto e)
+
+    public static EventDto ToDto(EventModel e)
     {
         return new EventDto
         {
