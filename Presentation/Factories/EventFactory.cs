@@ -11,10 +11,8 @@ public static class EventFactory
         {
             Name = dto.Name,
             Description = dto.Description,
-            Catagory = dto.Catagory,
             Location = dto.Location,
             Date = dto.Date,
-            MaxTickets = dto.MaxTickets,
             Price = dto.Price,
             ImageUrl = dto.ImageUrl
         };
@@ -24,10 +22,8 @@ public static class EventFactory
     {
         existing.Name = dto.Name;
         existing.Description = dto.Description;
-        existing.Catagory = dto.Catagory;
         existing.Location = dto.Location;
         existing.Date = dto.Date;
-        existing.MaxTickets = dto.MaxTickets;
         existing.Price = dto.Price;
         existing.ImageUrl = dto.ImageUrl;
     }
@@ -39,10 +35,8 @@ public static class EventFactory
             Id = e.Id,
             Name = e.Name,
             Description = e.Description,
-            Catagory = e.Catagory,
             Location = e.Location,
             Date = e.Date,
-            MaxTickets = e.MaxTickets,
             Price = e.Price,
             ImageUrl = e.ImageUrl
         };
