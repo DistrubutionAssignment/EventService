@@ -68,6 +68,8 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
+app.UseDeveloperExceptionPage();
+
 app.UseHttpsRedirection();
 app.UseCors("DefaultCors");
 
