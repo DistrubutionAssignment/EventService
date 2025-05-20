@@ -50,7 +50,7 @@ public class EventController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateEvent(int id, UpdateEventDto dto)
+    public async Task<IActionResult> UpdateEvent(string id, UpdateEventDto dto)
     {
         var e = await _context.Events.FindAsync(id);
         if (e == null)
