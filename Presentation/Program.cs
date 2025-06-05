@@ -10,9 +10,22 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("DefaultCors", policy =>
-    policy.AllowAnyHeader()
-    .AllowAnyHeader()
-    .AllowAnyOrigin());
+    {
+        if (builder.Environment.IsDevelopment())
+        {
+            policy
+                .AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        }
+        else
+        {
+            policy
+                .WithOrigins("https://ashy-cliff-0942cde03.6.azurestaticapps.net")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        }
+    });
 });
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -68,7 +81,15 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-app.UseDeveloperExceptionPage();
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
+else
+{
+    app.UseExceptionHandler("/error");
+    app.UseHsts();
+}
 
 app.UseHttpsRedirection();
 app.UseCors("DefaultCors");

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Presentation.Data;
 using Presentation.Dtos;
@@ -8,6 +9,7 @@ namespace Presentation.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class EventController : ControllerBase
 {
 
@@ -18,6 +20,7 @@ public class EventController : ControllerBase
     }
 
     [HttpGet]
+    [AllowAnonymous]
     public async Task<ActionResult<IEnumerable<EventDto>>> GetEvents()
     {
         var events = await _context.Events
@@ -28,6 +31,7 @@ public class EventController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [AllowAnonymous]
     public async Task<ActionResult<EventDto>> GetEvent(string id)
     {
         var e = await _context.Events.FindAsync(id);
