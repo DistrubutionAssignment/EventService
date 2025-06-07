@@ -44,6 +44,7 @@ public class EventController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<EventDto>> CreateEvent(CreateEventDto dto)
     {
         var e = EventFactory.CreateFromDto(dto);
@@ -54,6 +55,7 @@ public class EventController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> UpdateEvent(string id, UpdateEventDto dto)
     {
         var e = await _context.Events.FindAsync(id);
@@ -67,6 +69,7 @@ public class EventController : ControllerBase
         return NoContent();
     }
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> DeleteEvent(string id)
     {
         var e = await _context.Events.FindAsync(id);

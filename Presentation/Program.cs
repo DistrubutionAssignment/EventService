@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using System.Text;
 using Azure.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -60,7 +61,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
           ValidateIssuerSigningKey = true,
           ValidIssuer = jwtIssuer,
           ValidAudience = jwtAudience,
-          IssuerSigningKey = new SymmetricSecurityKey(keyBytes)
+          IssuerSigningKey = new SymmetricSecurityKey(keyBytes),
+          RoleClaimType = ClaimTypes.Role
+
       };
   });
 
