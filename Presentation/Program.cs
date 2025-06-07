@@ -65,6 +65,19 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
           RoleClaimType = ClaimTypes.Role
 
       };
+      options.Events = new JwtBearerEvents
+      {
+          OnMessageReceived = ctx =>
+          {
+              Console.WriteLine("Auth-header: " + ctx.Request.Headers["Authorization"]);
+              return Task.CompletedTask;
+          },
+          OnAuthenticationFailed = ctx =>
+          {
+              Console.WriteLine("JWT-validering FEL: " + ctx.Exception.Message);
+              return Task.CompletedTask;
+          }
+      };
   });
 
 builder.Services.AddAuthorization();
@@ -72,23 +85,34 @@ builder.Services.AddControllers();
 
 //Swagger-gen
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
+builder.Services.AddSwaggerGen(c => {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "EventService API", Version = "v1" });
-    var scheme = new OpenApiSecurityScheme
+
+    
+    var bearerScheme = new OpenApiSecurityScheme
     {
         Name = "Authorization",
         Type = SecuritySchemeType.Http,
-        Scheme = JwtBearerDefaults.AuthenticationScheme,
+        Scheme = JwtBearerDefaults.AuthenticationScheme,   
         BearerFormat = "JWT",
         In = ParameterLocation.Header,
-        Description = "Skriv: Bearer {token}"
+        Description = "Skriv: Bearer {token}",
+        Reference = new OpenApiReference
+        {
+            Type = ReferenceType.SecurityScheme,
+            Id = JwtBearerDefaults.AuthenticationScheme          
+        }
     };
-    c.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, scheme);
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement {
-      { scheme, Array.Empty<string>() }
+
+    c.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, bearerScheme);
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        // Här måste du använda samma scheme-instans med Reference
+        { bearerScheme, Array.Empty<string>() }
     });
 });
+
 
 var app = builder.Build();
 
