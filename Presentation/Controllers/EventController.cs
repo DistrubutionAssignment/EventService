@@ -9,8 +9,8 @@ namespace Presentation.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-[Authorize]
-public class EventController : ControllerBase
+[Authorize] //global auth för alla actions
+public class EventController : ControllerBase 
 {
 
     private readonly DataContext _context;
@@ -20,7 +20,7 @@ public class EventController : ControllerBase
     }
 
     [HttpGet]
-    [AllowAnonymous]
+    [AllowAnonymous] //tillåter alla användare att se events även om dom inte är inloggade
     public async Task<ActionResult<IEnumerable<EventDto>>> GetEvents()
     {
         var events = await _context.Events
@@ -31,7 +31,6 @@ public class EventController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    [AllowAnonymous]
     public async Task<ActionResult<EventDto>> GetEvent(string id)
     {
         var e = await _context.Events.FindAsync(id);
@@ -43,8 +42,8 @@ public class EventController : ControllerBase
         return Ok(EventFactory.ToDto(e));
     }
 
-    [HttpPost]
-    [Authorize(Roles = "Admin")]
+    [HttpPost] 
+    [Authorize(Roles = "Admin")] // Endast administratörer kan skapa events Ej implementerat i frontend, men fungerar via swagger.
     public async Task<ActionResult<EventDto>> CreateEvent(CreateEventDto dto)
     {
         var e = EventFactory.CreateFromDto(dto);
@@ -55,7 +54,7 @@ public class EventController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")] // Endast administratörer kan uppdatera events Ej implementerat i frontend, men fungerar via swagger.
     public async Task<IActionResult> UpdateEvent(string id, UpdateEventDto dto)
     {
         var e = await _context.Events.FindAsync(id);
@@ -69,7 +68,7 @@ public class EventController : ControllerBase
         return NoContent();
     }
     [HttpDelete("{id}")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")] // Endast administratörer kan ta bort events Ej implementerat i frontend, men fungerar via swagger.
     public async Task<IActionResult> DeleteEvent(string id)
     {
         var e = await _context.Events.FindAsync(id);

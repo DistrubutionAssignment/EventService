@@ -83,7 +83,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthorization();
 builder.Services.AddControllers();
 
-//Swagger-gen
+//Swagger-gen type helt chat gptad eftersom den surade och inte tog in token ordentligt 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c => {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "EventService API", Version = "v1" });
@@ -96,7 +96,7 @@ builder.Services.AddSwaggerGen(c => {
         Scheme = JwtBearerDefaults.AuthenticationScheme,   
         BearerFormat = "JWT",
         In = ParameterLocation.Header,
-        Description = "Skriv: Bearer {token}",
+        Description = "enter: {token}",
         Reference = new OpenApiReference
         {
             Type = ReferenceType.SecurityScheme,
@@ -108,7 +108,7 @@ builder.Services.AddSwaggerGen(c => {
 
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
-        // Här måste du använda samma scheme-instans med Reference
+        
         { bearerScheme, Array.Empty<string>() }
     });
 });
